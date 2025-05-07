@@ -1,15 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const apiRoutes = require("./routes/api-routes");
-const connectToDb = require("./config/db");
+const apiRoutes = require("../routes/api-routes");
+const connectToDb = require("../config/db");
 const cors = require("cors");
+const serverless = require("serverless-http");
 connectToDb();
 
-app.use(cors({
-  origin:'*',
-}));
-
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URI,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +32,5 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running at http://localhost:${process.env.PORT}`);
-});
+module.exports = app;
+module.exports.handler = serverless(app);
