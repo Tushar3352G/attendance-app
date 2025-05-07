@@ -8,7 +8,9 @@ const serverless = require('serverless-http')
 connectToDb();
 
 app.use(cors({
-  origin:'*',
+  origin: process.env.FRONTEND_URI,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 
