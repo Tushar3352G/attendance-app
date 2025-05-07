@@ -10,6 +10,7 @@ connectToDb();
 app.use(cors({
   origin: process.env.FRONTEND_URI,
   methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
@@ -31,5 +32,5 @@ app.use((error, req, res, next) => {
   });
 });
 
-module.exports = app
+
 module.exports.handler = serverless(app)
