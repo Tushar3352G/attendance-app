@@ -4,16 +4,8 @@ const app = express();
 const apiRoutes = require("./routes/api-routes");
 const connectToDb = require("./config/db");
 const cors = require("cors");
+app.use(cors());
 connectToDb();
-
-app.use(
-  cors({
-    origin: '*',
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,4 +23,4 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT);
