@@ -5,14 +5,15 @@ const apiRoutes = require("../routes/api-routes");
 const connectToDb = require("../config/db");
 const cors = require("cors");
 const serverless = require("serverless-http");
+
 connectToDb();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URI,
+    origin: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.redirect("/api/ping");
 });
+
 app.use("/api", apiRoutes);
 
 app.use((error, req, res, next) => {
